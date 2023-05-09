@@ -1,5 +1,7 @@
 import java.util.Scanner;
 
+//Ini Comit1
+
 class Main {
 
   static Scanner scan = new Scanner(System.in);
