@@ -1,8 +1,6 @@
 import java.util.Scanner;
 
-//Ini Comit1
-
-class Main {
+class Main{
 
   static Scanner scan = new Scanner(System.in);
   static Library library = new Library();
@@ -16,19 +14,29 @@ class Main {
       showMenu();
       int selectedMenu = chooseMenu();
 
-      if (selectedMenu == 1) {
-        showBooks();
-      } else if (selectedMenu == 2) {
-        showMembers();
-      } else if (selectedMenu == 3) {
-        addMember();
-      } else if (selectedMenu == 4) {
-        borrowBook();
-      } else if (selectedMenu == 5) {
-        returnBook();
-      } else {
-        System.out.println("wrong input");
-      }
+        switch (selectedMenu) {
+            case 1:
+                showBooks();
+                break;
+            case 2:
+                showMembers();
+                break;
+            case 3:
+                addMember();
+                break;
+            case 4:
+                borrowBook();
+                break;
+            case 5:
+                returnBook();
+                break;
+            case 6:
+                addBook();
+                break;
+            default:
+                System.out.println("wrong input");
+                break;
+        }
 
       System.out.print("continue ? ");
       isContinue = scan.next();
@@ -42,33 +50,34 @@ class Main {
     System.out.println("3. add member");
     System.out.println("4. borrow book");
     System.out.println("5. return book");
+    System.out.println("6. add book");
     System.out.println("================================");
   }
 
   public static void initLibraryData() {
     Book book1 = new Book();
-    book1.id = "1";
-    book1.title = "pemrograman java";
+    book1.setId("1");
+    book1.setTitle("pemrograman java");
 
     Book book2 = new Book();
-    book2.id = "2";
-    book2.title = "pemrograman oop";
+    book2.setId("2");
+    book2.setTitle("pemrograman OOP");
 
     Book book3 = new Book();
-    book3.id = "3";
-    book3.title = "pemrograman android";
+    book3.setId("3");
+    book3.setTitle("pemrograman Android");
 
     Member member1 = new Member();
-    member1.id = "1";
-    member1.name = "aka";
+    member1.setId("1");
+    member1.setName("aka");
 
     Member member2 = new Member();
-    member2.id = "2";
-    member2.name = "budi";
+    member2.setId("2");
+    member2.setName("Budi");
 
     Member member3 = new Member();
-    member3.id = "3";
-    member3.name = "tono";
+    member3.setId("3");
+    member3.setName("Tono");
 
     library.books.add(book1);
     library.books.add(book2);
@@ -87,26 +96,52 @@ class Main {
 
   public static void showBooks() {
     for (Book book : library.books) {
-      System.out.println(book.id + " " + book.title);
+      book.display();
     }
   }
 
   public static void showMembers() {
     for (Member member : library.members) {
-      System.out.println(member.id + " " + member.name);
+      member.display();
     }
   }
 
   public static void addMember() {
     Member member = new Member();
+    do{
+        if(library.isMemberIdExist(member.getId()) == true){
+            System.out.println("The Id has been taken");
+        }
+        System.out.print("id : ");
+        String id = scan.next();
+        member.setId(id);
 
-    System.out.print("id : ");
-    member.id = scan.next();
-
-    System.out.print("name : ");
-    member.name = scan.next();
-
+        System.out.print("name : ");
+        String name = scan.next();
+        member.setName(name);
+    }
+    while(library.isMemberIdExist(member.getId()) == true);
+    System.out.println("Member succesful added");
     library.addMember(member);
+  }
+  
+  public static void addBook() {
+    Book book = new Book();
+    do{
+        if(library.isBookIdExist(book.getId()) == true){
+            System.out.println("The book Id already used");
+        }
+        System.out.print("id book: ");
+        String id = scan.next();
+        book.setId(id);
+
+        System.out.print("title : ");
+        String title = scan.next();
+        book.setTitle(title);
+    }
+    while(library.isBookIdExist(book.getId()) == true);
+    System.out.println("Book Succesfuly added");
+    library.addBook(book);
   }
 
   public static void borrowBook() {
@@ -116,7 +151,7 @@ class Main {
     System.out.print("id book : ");
     String bookId = scan.next();
 
-    library.giveBook(memberId, bookId);
+    library.giveBook(bookId, memberId);
   }
 
   public static void returnBook() {
@@ -126,6 +161,6 @@ class Main {
     System.out.print("id book : ");
     String bookId = scan.next();
 
-    library.receiveBook(memberId, bookId);
+    library.receiveBook(bookId, memberId);
   }
 }
