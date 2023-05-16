@@ -16,7 +16,7 @@ class Library{
     for (Member member : this.members) {
       if (member.getId().equals(id)) {
         isExist = true;
-      }
+      }  
     }
     return isExist;
   }
